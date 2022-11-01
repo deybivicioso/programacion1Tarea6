@@ -1,5 +1,8 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class ventana1 extends JFrame {
     componentes code = new componentes();
@@ -15,7 +18,7 @@ public class ventana1 extends JFrame {
 
 }
 
-class componentes extends JPanel {
+class componentes extends JPanel implements ActionListener,ChangeListener{    
     // texto de cabecera y su espejo...
     JLabel texto1 = new JLabel();
     JLabel texto2=new JLabel();//espejo..
@@ -36,10 +39,12 @@ class componentes extends JPanel {
     //area de texto (primer textfield) y su espejo
     JTextField text = new JTextField();
     JTextField text2=new JTextField();//espejo...
-    //comboBjox
+    //comboBjox y su espejo
     JComboBox combo = new JComboBox<>();
-    //spiner superior
+    JComboBox combo2=new JComboBox<>();//espejo
+    //spiner superior y su espejo
     JSpinner spin1=new JSpinner();
+    JSpinner spin2=new JSpinner();//espejo
 
     // constructor de la clase.....
     public componentes() {
@@ -50,15 +55,35 @@ class componentes extends JPanel {
         areaText();
         comboBoxx();
         spinnerr();
-        linea();
-        laminasx();
-
+        linea();        
+        laminasx();      
     }
+    public void actionPerformed(ActionEvent e){
+        //eventos de botones radios        
+        this.B4.setSelected(this.B1.isSelected());
+        this.B5.setSelected(this.B2.isSelected());
+        this.B6.setSelected(this.B3.isSelected());
+        //eventos de los botones check
+        this.check4.setSelected(this.check1.isSelected());
+        this.check5.setSelected(this.check2.isSelected());
+        this.check6.setSelected(this.check3.isSelected());
+        //eventos de area texto
+        this.text2.setText(this.text.getText());
+        //eventos de combo box
+        this.combo2.setSelectedItem(this.combo.getSelectedItem());        
+    }
+    public void stateChanged(ChangeEvent e){
+        this.spin2.setValue((Integer)this.spin1.getValue());
+    }
+   
 
     public void botonesRadio() {
         B1.setBounds(10, 38, 75, 15);
+        B1.addActionListener(this);
         B2.setBounds(10, 65, 75, 15);
+        B2.addActionListener(this);
         B3.setBounds(10, 90, 75, 15);
+        B3.addActionListener(this);
         ButtonGroup grupo1 = new ButtonGroup();
         grupo1.add(B1);
         grupo1.add(B2);
@@ -80,8 +105,11 @@ class componentes extends JPanel {
 
     public void botonesCheck() {
         check1.setBounds(130, 38, 75, 15);
+        check1.addActionListener(this);
         check2.setBounds(130, 65, 75, 15);
+        check2.addActionListener(this);
         check3.setBounds(130, 90, 75, 15);
+        check3.addActionListener(this);
         //componentes espejo..
         check4=new JCheckBox("opcion 4");
         check4.setBounds(130, 38, 75, 15);
@@ -98,6 +126,7 @@ class componentes extends JPanel {
     public void areaText() {
         
         text.setBounds(230, 38, 90, 25);
+        text.addActionListener(this);
         //componentes espejo....
         text2=new JTextField();
         text2.setBounds(230, 38, 90, 25);
@@ -108,11 +137,22 @@ class componentes extends JPanel {
         String[] items = { " item 1", " item2", " item3", "  item4", " item5" ," item6" };
         combo = new JComboBox<>(items);
         combo.setBounds(230, 75, 90, 25);
+        combo.addActionListener(this);
+        //componentes espejo....
+        combo2=new JComboBox<>(items);
+        combo2.setBounds(230, 75, 90, 25);
+        combo2.setEnabled(false);
+
     }
 
     public void spinnerr() { 
         spin1=new JSpinner();
         spin1.setBounds(230, 115, 90, 25);
+        spin1.addChangeListener(this);
+        //componente espejo....
+        spin2=new JSpinner();
+        spin2.setBounds(230, 115, 90, 25);
+        spin2.setEnabled(false);
         
     }
 
@@ -162,8 +202,11 @@ class componentes extends JPanel {
         lamina2.add(check5);
         lamina2.add(check6);
         lamina2.add(text2);
+        lamina2.add(combo2);
+        lamina2.add(spin2);
         add(lamina2);
 
-    }
-
+    }  
 }
+
+
